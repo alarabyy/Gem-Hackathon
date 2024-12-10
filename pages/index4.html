@@ -18,7 +18,7 @@
       display: block; /* عرض الإطار بشكل افتراضي */
       z-index: 1; /* وضع الإطار فوق العناصر الأخرى */
       left: 0;
-      top: 0;ِ
+      top: 0;
       width: 100%;
       height: 100%;
       overflow: auto;
@@ -97,11 +97,11 @@
       canvas.height = video.videoHeight;
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // حفظ الصورة
-      const image = canvas.toDataURL('image/png');
+      // حفظ الصورة بتنسيق JPG
+      const image = canvas.toDataURL('image/jpeg'); // تغيير هنا إلى تنسيق JPEG
       const link = document.createElement('a');
       link.href = image;
-      link.download = 'captured_image.png';
+      link.download = 'captured_image.jpg'; // تغيير اسم الملف إلى .jpg
       link.click();
     };
   </script>
