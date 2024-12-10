@@ -60,3 +60,17 @@ body {
   .btn span {
     font-size: 18px;
   }
+  /* ... باقي الكود ... */
+
+@media (max-width: 768px) {
+    .container {
+      width: 90%;
+    }
+    .logo img {
+      width: 50%; /* تقليل حجم الصورة على الشاشات الصغيرة */
+    }
+    .btn {
+      width: 100%;
+      flex-direction: column; /* ترتيب الأزرار عموديًا */
+    }
+  }
