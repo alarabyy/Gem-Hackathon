@@ -71,6 +71,6 @@ body {
     }
     .btn {
       width: 100%;
-      flex-direction: column; /* ترتيب الأزرار عموديًا */
+      flex-directiِon: column; /* ترتيب الأزرار عموديًا */
     }
   }

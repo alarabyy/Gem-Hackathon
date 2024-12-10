@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>فتح الكاميرا تلقائيًا</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .modal {
+      display: block; /* عرض الإطار بشكل افتراضي */
+      z-index: 1; /* وضع الإطار فوق العناصر الأخرى */
+      left: 0;
+      top: 0;ِ
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4); /* خلفية شفافة */
+    }
+
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 10px;
+      border: 1px solid #888;
+      width: 90%; /* مناسب لأغلب الهواتف */
+      max-width: 400px; /* حد أقصى لعرض الإطار */
+      border-radius: 10px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    #videoElement {
+      width: 100%; /* يجعل الفيديو يأخذ عرض الإطار بالكامل */
+      border-radius: 10px;
+    }
+
+    #captureButton {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #captureButton:hover {
+      background-color: #0056b3;
+    }
+
+    #canvas {
+      display: none; /* إخفاء الكانفس بشكل افتراضي */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <video id="videoElement" autoplay></video>
+      <button id="captureButton">التقاط الصورة</button>
+      <canvas id="canvas"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('myModal');
+    const video = document.getElementById('videoElement');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('captureButton');
+
+    // تشغيل الكاميرا تلقائيًا عند فتح الصفحة
+    window.onload = function () {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+        })
+        .catch(error => {
+          console.error('Error accessing media devices.', error);
+        });
+    };
+
+    // التقاط الصورة عند الضغط على الزر
+    captureButton.onclick = function () {
+      const context = canvas.getContext('2d');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // حفظ الصورة
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = 'captured_image.png';
+      link.click();
+    };
+  </script>
+</body>
+
+</html>
