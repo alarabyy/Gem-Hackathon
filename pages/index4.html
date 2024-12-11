@@ -100,6 +100,22 @@
       display: none;
     }
 
+    /* عرض الصور في المعرض */
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .gallery img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
     /* تحسين التنسيق للأجهزة المحمولة */
     @media (max-width: 600px) {
       .modal-content {
@@ -129,6 +145,8 @@
     </div>
   </div>
 
+  <div class="gallery" id="gallery"></div>
+
   <script>
     const modal = document.getElementById('myModal');
     const video = document.getElementById('videoElement');
@@ -138,6 +156,7 @@
     const filterButton1 = document.getElementById('filterButton1');
     const filterButton2 = document.getElementById('filterButton2');
     const downloadButton = document.getElementById('downloadButton');
+    const gallery = document.getElementById('gallery');
 
     let currentFilter = ''; // لتخزين الفلتر الحالي
 
@@ -157,6 +176,10 @@
       const context = canvas.getContext('2d');
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
+
+      // تطبيق الفلتر الحالي على الكانفس قبل التقاط الصورة
+      canvas.style.filter = currentFilter; // تطبيق الفلتر على الكانفس
+
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       // حفظ الصورة بتنسيق JPG
@@ -191,8 +214,9 @@
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
 
-      // تطبيق الفلتر الحالي على الكانفس قبل التقاط الصورة
-      video.style.filter = currentFilter;
+      // تطبيق الفلتر الأسود والأبيض على الكانفس
+      currentFilter = 'grayscale(100%)';  // التأكد من تطبيق الفلتر الأبيض والأسود عند الضغط على الزر
+      canvas.style.filter = currentFilter; // تطبيق الفلتر على الكانفس
 
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
@@ -200,8 +224,13 @@
       const image = canvas.toDataURL('image/jpeg');
       const link = document.createElement('a');
       link.href = image;
-      link.download = 'captured_image_with_filter.jpg';
+      link.download = 'captured_image_with_bw_filter.jpg';  // اسم الصورة مع الفلتر الأسود والأبيض
       link.click();
+
+      // إضافة الصورة إلى المعرض بعد تحميلها
+      const img = document.createElement('img');
+      img.src = image;
+      gallery.appendChild(img);
     };
   </script>
 </body>
